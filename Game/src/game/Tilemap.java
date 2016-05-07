@@ -13,6 +13,13 @@ public class Tilemap {
 		image = ImageIO.read(new File(path));
 		this.column = column;
 	}
+	/**
+	 * 
+	 * @param g Graphics object 
+	 * @param x Screen coordinate
+	 * @param y Screen coordinate
+	 * @param tileID Specific tile
+	 */
 	public void drawImage(Graphics g, int x, int y,int tileID){
 		int sx = (tileID % column) * 32;
 		int sy = (tileID / column) * 32;

@@ -12,9 +12,8 @@ public class Main {
 	public Main() {
 		window = new GameWindow(1280, 720);
 		try {
-			tilemap = new Tilemap("tilemap2.png", 2);
+			tilemap = new Tilemap("tilemap3.png", 32);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -24,10 +23,9 @@ public class Main {
 			
 			Graphics g = window.getGraphics();
 			
-			g.setColor(Color.red);
+			g.setColor(Color.white);
 			g.fillRect(0, 0, window.getWidth(), window.getHeight());
-			tilemap.drawImage(g, 0, 0, 3);
-			
+			tilemap.drawImage(g, 0, 0, 128);
 			window.swapBuffers();
 			
 			try {
