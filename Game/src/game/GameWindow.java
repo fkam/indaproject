@@ -22,7 +22,7 @@ public class GameWindow {
 		
 		
 		/*
-		 * Swing objects can only be modifed from the AWT thread. Modifying them from the main thread
+		 * Swing objects can only be modified from the AWT thread. Modifying them from the main thread
 		 * can result in random errors and crashes.
 		 * 
 		 * SwingUtilities.invokeAndWait() is used to run the code on the AWT thread to solve this.
