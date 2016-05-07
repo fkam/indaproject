@@ -39,6 +39,14 @@ public class GameWindow {
 		graphics.dispose();
 		bufferStrategy.show();
 		
-		graphics = bufferStrategy.getDrawGraphics();
+		graphics = bufferStrategy.getDrawGraphics();		
 	}
+	/**
+	 * 
+	 * Gets the graphics object and returns it.
+	 */
+	public Graphics getGraphics(){
+		return graphics; 
+	}
+	 
 }
