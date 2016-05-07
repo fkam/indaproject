@@ -9,7 +9,7 @@ public class Main {
 	
 	
 	public Main() {
-		window = new GameWindow();
+		window = new GameWindow(1280, 720);
 	}
 
 	private void gameloop() {
@@ -18,7 +18,8 @@ public class Main {
 			Graphics g = window.getGraphics();
 			
 			g.setColor(Color.red);
-			g.fillRect(0, 0, 1024, 768);
+			g.fillRect(0, 0, window.getWidth(), window.getHeight());
+			
 			
 			window.swapBuffers();
 			

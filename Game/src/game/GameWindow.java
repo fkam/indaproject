@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
@@ -16,13 +17,14 @@ public class GameWindow {
 	/**
 	 * Creates a new game window.
 	 */
-	public GameWindow() {
+	public GameWindow(int width, int height) {
 		
 		frame = new JFrame();
-		frame.setSize(1024, 768);
+		frame.setPreferredSize(new Dimension(width, height));
 		frame.setLocation(100, 100);
 		frame.setUndecorated(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
 		frame.setVisible(true);
 		
 		frame.createBufferStrategy(2);
@@ -48,5 +50,12 @@ public class GameWindow {
 	public Graphics getGraphics(){
 		return graphics; 
 	}
-	 
+	
+	public int getWidth(){
+		return frame.getWidth();
+	}
+	
+	public int getHeight(){
+		return frame.getHeight();
+	}
 }
