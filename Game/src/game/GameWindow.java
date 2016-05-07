@@ -3,8 +3,10 @@ package game;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 public class GameWindow {
 	
@@ -19,18 +21,37 @@ public class GameWindow {
 	 */
 	public GameWindow(int width, int height) {
 		
-		frame = new JFrame();
-		frame.setPreferredSize(new Dimension(width, height));
-		frame.setLocation(100, 100);
-		frame.setUndecorated(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.pack();
-		frame.setVisible(true);
 		
-		frame.createBufferStrategy(2);
-		bufferStrategy = frame.getBufferStrategy();
+		/*
+		 * Swing objects can only be modifed from the AWT thread. Modifying them from the main thread
+		 * can result in random errors and crashes.
+		 * 
+		 * SwingUtilities.invokeAndWait() is used to run the code on the AWT thread to solve this.
+		 */
+		try {
+			SwingUtilities.invokeAndWait(new Runnable() {
+				
+				@Override
+				public void run() {
+					frame = new JFrame();
+					frame.setPreferredSize(new Dimension(width, height));
+					frame.setLocation(100, 100);
+					frame.setUndecorated(true);
+					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					frame.pack();
+					frame.setVisible(true);
+					
+					frame.createBufferStrategy(2);
+					bufferStrategy = frame.getBufferStrategy();
 
-		graphics = bufferStrategy.getDrawGraphics();
+					graphics = bufferStrategy.getDrawGraphics();
+				}
+			});
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
