@@ -11,7 +11,6 @@ public class Level {
 	public Level(Tilemap tilemap, int[][] tiles, boolean[][] walkable) {
 		this.tiles=tiles;
 		this.tilemap = tilemap;
-		
 	}
 
 	public void draw(Graphics g){
@@ -24,8 +23,6 @@ public class Level {
 	
 	public boolean canWalk(int x, int y){
 		return walkable[x][y];
-		
-		
 	}
 	
 }
