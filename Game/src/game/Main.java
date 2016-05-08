@@ -50,10 +50,10 @@ public class Main {
 			
 			Graphics g = window.getGraphics();
 			
-			g.setColor(Color.black);
+			g.setColor(Color.white);
 			g.fillRect(0, 0, window.getWidth(), window.getHeight());
 			
-			level.draw();
+			level.draw(g);
 			
 			for(int i = 0; i < sprites.size(); i++){
 				
