@@ -7,11 +7,16 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Tilemap {
+	
 	private Image image;
-	private int column;
-	public Tilemap(String path, int column) throws IOException {
+	private int columns;
+	private int tileWidth, tileHeight;
+	
+	public Tilemap(String path, int columns, int tileWidth, int tileHeight) throws IOException {
 		image = ImageIO.read(new File(path));
-		this.column = column;
+		this.columns = columns;
+		this.tileWidth = tileWidth;
+		this.tileHeight = tileHeight;
 	}
 	/**
 	 * 
@@ -21,9 +26,9 @@ public class Tilemap {
 	 * @param tileID Specific tile
 	 */
 	public void drawImage(Graphics g, int x, int y,int tileID){
-		int sx = (tileID % column) * 32;
-		int sy = (tileID / column) * 32;
-		g.drawImage(image, x, y, x+32, y+32, sx, sy, sx+32, sy+32, null);
+		int sx = (tileID % columns) * 32;
+		int sy = (tileID / columns) * 32;
+		g.drawImage(image, x, y, x+tileWidth, y+tileHeight, sx, sy, sx+tileWidth, sy+tileHeight, null);
 	}
 	
 
