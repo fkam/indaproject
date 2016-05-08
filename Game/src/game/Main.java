@@ -12,7 +12,7 @@ public class Main {
 	public Main() {
 		window = new GameWindow(1280, 720);
 		try {
-			tilemap = new Tilemap("tilemap3.png", 32);
+			tilemap = new Tilemap("tilemap3.png", 32, 32, 32);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
