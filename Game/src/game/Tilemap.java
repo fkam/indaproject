@@ -26,11 +26,21 @@ public class Tilemap {
 	 * @param tileID Specific tile
 	 */
 	public void drawImage(Graphics g, int x, int y, int tileID){
-		int sx = (tileID % columns) * 32;
-		int sy = (tileID / columns) * 32;
+		int sx = (tileID % columns) * tileWidth;
+		int sy = (tileID / columns) * tileHeight;
 		g.drawImage(image, x, y, x+tileWidth, y+tileHeight, sx, sy, sx+tileWidth, sy+tileHeight, null);
 	}
 	
-
+	public int getColumns() {
+		return columns;
+	}
+	
+	public int getTileWidth() {
+		return tileWidth;
+	}
+	
+	public int getTileHeight() {
+		return tileHeight;
+	}
 
 }
