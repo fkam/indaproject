@@ -25,7 +25,7 @@ public class Tilemap {
 	 * @param y Screen coordinate
 	 * @param tileID Specific tile
 	 */
-	public void drawImage(Graphics g, int x, int y,int tileID){
+	public void drawImage(Graphics g, int x, int y, int tileID){
 		int sx = (tileID % columns) * 32;
 		int sy = (tileID / columns) * 32;
 		g.drawImage(image, x, y, x+tileWidth, y+tileHeight, sx, sy, sx+tileWidth, sy+tileHeight, null);
