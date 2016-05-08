@@ -28,7 +28,7 @@ public class Main {
 			for(int x = 0; x < levelSize; x++){
 				for(int y = 0; y < levelSize; y++){
 					tiles[x][y] = r.nextInt(1000);
-					walkable[x][y] = r.nextInt(5) == 0;
+					walkable[x][y] = r.nextInt(5) != 0;
 				}
 			}
 			
