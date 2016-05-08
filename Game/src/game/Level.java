@@ -16,10 +16,9 @@ public class Level {
 
 	public void draw(Graphics g){
 		for(int x = 0; x < tiles.length; x++){
-			for(int y = 0; y < tiles.length; y++){
+			for(int y = 0; y < tiles[x].length; y++){
 				tilemap.drawImage(g, x*32, y*32, tiles[x][y]);
-			}
-				
+			}	
 		}
 	}
 	
