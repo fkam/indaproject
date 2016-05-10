@@ -82,29 +82,41 @@ public class Sprite {
 		tilemap.drawImage(g, drawX, drawY, tileID + frame);
 	}
 	
-	public void walk(int direction){
+	public void walk(Level level , int direction){
+		if (walking){ 
+			return; 
+		}
+		
 		this.direction = direction;
-		
 		if(direction == DIRECTION_DOWN){
-			y++;
-			offsetY = -32;
+			if (level.canWalk(x, y+1)){
+				y++;
+				offsetY = -32;
+				walking = true;
+			}
 		}
-		
 		if(direction == DIRECTION_LEFT){
-			x--;
-			offsetX = +32;
+			if (level.canWalk(x-1, y)){
+				x--;
+				offsetX = +32;
+				walking = true;
+			}
 		}
-		
 		if(direction == DIRECTION_RIGHT){
-			x++;
-			offsetX = -32;
+			if (level.canWalk(x+1, y)){
+				x++;
+				offsetX = -32;
+				walking = true;
+			}
+		}
+		if(direction == DIRECTION_UP){
+			if (level.canWalk(x, y-1)){
+				y--;
+				offsetY = +32;
+				walking = true;
+			}
 		}
 		
-		if(direction == DIRECTION_UP){
-			y--;
-			offsetY = +32;
-		}
-		walking = true;
 	}
 	
 	public void setDirection(int direction) {
