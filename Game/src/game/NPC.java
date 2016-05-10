@@ -1,5 +1,6 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class NPC extends Sprite{
@@ -9,10 +10,10 @@ public class NPC extends Sprite{
 		r = new Random();
 	}
 
-	public void update(Level level){
-		super.update(level);
+	public void update(Level level, ArrayList<Sprite> sprites){
+		super.update(level, sprites);
 		int direction = r.nextInt(4);
-		super.walk(level, direction);
+		super.walk(level, sprites, direction);
 		
 	}
 	

@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 public class Sprite {
 	
@@ -34,7 +35,7 @@ public class Sprite {
 		offsetY = 0;
 	}
 	
-	public void update(Level level){
+	public void update(Level level, ArrayList<Sprite> sprites){
 		
 		if(walking){
 			if(direction == DIRECTION_DOWN){
@@ -82,42 +83,52 @@ public class Sprite {
 		tilemap.drawImage(g, drawX, drawY, tileID + frame);
 	}
 	
-	public void walk(Level level , int direction){
+	public void walk(Level level, ArrayList<Sprite> sprites, int direction){
 		if (walking){ 
 			return; 
 		}
 		
 		this.direction = direction;
 		if(direction == DIRECTION_DOWN){
-			if (level.canWalk(x, y+1)){
+			if (level.canWalk(x, y+1) && isTileFree(x, y+1, sprites)){
 				y++;
 				offsetY = -32;
 				walking = true;
 			}
 		}
 		if(direction == DIRECTION_LEFT){
-			if (level.canWalk(x-1, y)){
+			if (level.canWalk(x-1, y) && isTileFree(x-1, y, sprites)){
 				x--;
 				offsetX = +32;
 				walking = true;
 			}
 		}
 		if(direction == DIRECTION_RIGHT){
-			if (level.canWalk(x+1, y)){
+			if (level.canWalk(x+1, y) && isTileFree(x+1, y, sprites)){
 				x++;
 				offsetX = -32;
 				walking = true;
 			}
 		}
 		if(direction == DIRECTION_UP){
-			if (level.canWalk(x, y-1)){
+			if (level.canWalk(x, y-1) && isTileFree(x, y-1, sprites)){
 				y--;
 				offsetY = +32;
 				walking = true;
 			}
 		}
-		
 	}
+	
+	private boolean isTileFree(int x, int y, ArrayList<Sprite> sprites){
+		for(int i = 0; i < sprites.size(); i++){
+			Sprite s = sprites.get(i);
+			if(s.getTileX() == x && s.getTileY() == y){
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	
 	public void setDirection(int direction) {
 		this.direction = direction;

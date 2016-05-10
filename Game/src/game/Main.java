@@ -69,25 +69,23 @@ public class Main {
 			
 			if(!player.isWalking()){
 				if(window.isKeyDown(KeyEvent.VK_UP)){
-					player.walk(level, Sprite.DIRECTION_UP);
+					player.walk(level, sprites, Sprite.DIRECTION_UP);
 				}
 				else if(window.isKeyDown(KeyEvent.VK_LEFT)){
-					player.walk(level, Sprite.DIRECTION_LEFT);
+					player.walk(level, sprites, Sprite.DIRECTION_LEFT);
 				}
 				else if(window.isKeyDown(KeyEvent.VK_RIGHT)){
-					player.walk(level, Sprite.DIRECTION_RIGHT);
+					player.walk(level, sprites, Sprite.DIRECTION_RIGHT);
 				}
 				else if(window.isKeyDown(KeyEvent.VK_DOWN)){
-					player.walk(level, Sprite.DIRECTION_DOWN);
+					player.walk(level, sprites, Sprite.DIRECTION_DOWN);
 				}
 			}
 			
 			for(int i = 0; i < sprites.size(); i++){
 				
 				Sprite sprite = sprites.get(i);
-				
-				
-				sprite.update(level);
+				sprite.update(level, sprites);
 				sprite.draw(g);
 				
 			}
