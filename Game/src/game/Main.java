@@ -2,6 +2,7 @@ package game;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -64,7 +65,18 @@ public class Main {
 				Sprite sprite = sprites.get(i);
 				
 				if(!sprite.isWalking()){
-					sprite.walk(r.nextInt(4));
+					//sprite.walk(r.nextInt(4));
+					
+					if(window.isKeyDown(KeyEvent.VK_UP)){
+						sprite.walk(Sprite.DIRECTION_UP);
+					}else if(window.isKeyDown(KeyEvent.VK_LEFT)){
+						sprite.walk(Sprite.DIRECTION_LEFT);
+					}else if(window.isKeyDown(KeyEvent.VK_RIGHT)){
+						sprite.walk(Sprite.DIRECTION_RIGHT);
+					}else if(window.isKeyDown(KeyEvent.VK_DOWN)){
+						sprite.walk(Sprite.DIRECTION_DOWN);
+					}
+					
 				}
 				sprite.update();
 				sprite.draw(g);
@@ -76,7 +88,7 @@ public class Main {
 			
 			
 			try {
-				Thread.sleep(10);
+				Thread.sleep(0);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

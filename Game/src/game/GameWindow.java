@@ -2,17 +2,21 @@ package game;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-public class GameWindow {
+public class GameWindow implements KeyListener {
 	
 	private JFrame frame; //The window
 	private BufferStrategy bufferStrategy; //Object for doing high-performance buffer swapping
 	
 	private Graphics graphics; //The Graphics object of the current frame.
+	
+	private boolean[] pressedKeys;
 	
 	
 	/**
@@ -20,6 +24,8 @@ public class GameWindow {
 	 */
 	public GameWindow(int width, int height) {
 		
+		
+		pressedKeys = new boolean[65536];
 		
 		/*
 		 * Swing objects can only be modified from the AWT thread. Modifying them from the main thread
@@ -39,6 +45,8 @@ public class GameWindow {
 					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					frame.pack();
 					frame.setVisible(true);
+					
+					frame.addKeyListener(GameWindow.this);
 					
 					frame.createBufferStrategy(2);
 					bufferStrategy = frame.getBufferStrategy();
@@ -75,5 +83,33 @@ public class GameWindow {
 	
 	public int getHeight(){
 		return frame.getHeight();
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		int code = e.getKeyCode();
+		if(code < 0 || code >= pressedKeys.length){
+			return;
+		}
+		pressedKeys[code] = true;
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		int code = e.getKeyCode();
+		if(code < 0 || code >= pressedKeys.length){
+			return;
+		}
+		pressedKeys[code] = false;
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {}
+	
+	public boolean isKeyDown(int keyCode){
+		if(keyCode < 0 || keyCode >= pressedKeys.length){
+			return false;
+		}
+		return pressedKeys[keyCode];
 	}
 }

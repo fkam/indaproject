@@ -4,6 +4,13 @@ import java.awt.Graphics;
 
 public class Sprite {
 	
+
+	public static final int DIRECTION_DOWN = 0;
+	public static final int DIRECTION_LEFT = 1;
+	public static final int DIRECTION_RIGHT = 2;
+	public static final int DIRECTION_UP = 3;
+	
+	
 	private Tilemap tilemap;
 	private int tileOffset;
 	
@@ -20,7 +27,7 @@ public class Sprite {
 		
 		x = 10;
 		y = 10;
-		direction = 0;
+		direction = DIRECTION_DOWN;
 		
 		walking = false;
 		offsetX = 0;
@@ -30,18 +37,16 @@ public class Sprite {
 	public void update(){
 		
 		if(walking){
-			if(direction == 0){
+			if(direction == DIRECTION_DOWN){
 				offsetY++;
 			}
-			if(direction == 1){
+			if(direction == DIRECTION_LEFT){
 				offsetX--;
 			}
-			
-			if(direction == 2){
+			if(direction == DIRECTION_RIGHT){
 				offsetX++;
 			}
-			
-			if(direction == 3){
+			if(direction == DIRECTION_UP){
 				offsetY--;
 			}
 			
@@ -82,22 +87,22 @@ public class Sprite {
 	public void walk(int direction){
 		this.direction = direction;
 		
-		if(direction == 0){
+		if(direction == DIRECTION_DOWN){
 			y++;
 			offsetY = -32;
 		}
 		
-		if(direction == 1){
+		if(direction == DIRECTION_LEFT){
 			x--;
 			offsetX = +32;
 		}
 		
-		if(direction == 2){
+		if(direction == DIRECTION_RIGHT){
 			x++;
 			offsetX = -32;
 		}
 		
-		if(direction == 3){
+		if(direction == DIRECTION_UP){
 			y--;
 			offsetY = +32;
 		}
