@@ -27,7 +27,7 @@ public class Main {
 		try {
 			Tilemap levelTilemap = new Tilemap("tilemap3.png", 32, 32, 32);
 			
-			int levelSize = 40;
+			int levelSize = 128;
 			int[][] tiles = new int[levelSize][levelSize];
 			boolean[][] walkable = new boolean[levelSize][levelSize];
 			for(int x = 0; x < levelSize; x++){

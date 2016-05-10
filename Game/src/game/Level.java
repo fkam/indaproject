@@ -9,7 +9,7 @@ public class Level {
 	private boolean[][] walkable;
 	
 	public Level(Tilemap tilemap, int[][] tiles, boolean[][] walkable) {
-		this.tiles=tiles;
+		this.tiles = tiles;
 		this.tilemap = tilemap;
 		this.walkable = walkable;
 	}
