@@ -54,8 +54,6 @@ public class Sprite {
 				walking = false;
 			}
 		}
-		
-		
 	}
 	
 	public void draw(Graphics g){
@@ -107,6 +105,10 @@ public class Sprite {
 			offsetY = +32;
 		}
 		walking = true;
+	}
+	
+	public void setDirection(int direction) {
+		this.direction = direction;
 	}
 	
 	public boolean isWalking() {
