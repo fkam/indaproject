@@ -28,8 +28,11 @@ public class Main {
 			boolean[][] walkable = new boolean[levelSize][levelSize];
 			for(int x = 0; x < levelSize; x++){
 				for(int y = 0; y < levelSize; y++){
-					tiles[x][y] = r.nextInt(100);
+					tiles[x][y] = 100+r.nextInt(100);
 					walkable[x][y] = r.nextInt(5) != 0;
+					if(!walkable[x][y]){
+						tiles[x][y] = 32;
+					}
 				}
 			}
 			
@@ -65,7 +68,6 @@ public class Main {
 				Sprite sprite = sprites.get(i);
 				
 				if(!sprite.isWalking()){
-					//sprite.walk(r.nextInt(4));
 					
 					if(window.isKeyDown(KeyEvent.VK_UP)){
 						sprite.walk(Sprite.DIRECTION_UP);
