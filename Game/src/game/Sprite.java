@@ -113,6 +113,14 @@ public class Sprite {
 		return walking;
 	}
 	
+	public int getTileX(){
+		return x;
+	}
+	
+	public int getTileY(){
+		return y;
+	}
+	
 	public int getX() {
 		return x*32 + 16 + offsetX;
 	}
