@@ -22,12 +22,14 @@ public class Sprite {
 	private boolean walking;
 	private int offsetX, offsetY;
 	
-	public Sprite(Tilemap tilemap, int tileOffset){
+	
+	
+	public Sprite(Tilemap tilemap, int tileOffset, int x, int y){
 		this.tilemap = tilemap;
 		this.tileOffset = tileOffset;
 		
-		x = 10;
-		y = 10;
+		this.x = x;
+		this.y = y;
 		direction = DIRECTION_DOWN;
 		
 		walking = false;

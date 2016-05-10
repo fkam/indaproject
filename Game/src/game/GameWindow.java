@@ -40,7 +40,7 @@ public class GameWindow implements KeyListener {
 				public void run() {
 					frame = new JFrame();
 					frame.setPreferredSize(new Dimension(width, height));
-					frame.setLocation(100, 100);
+					//frame.setLocation(100, 100);
 					frame.setUndecorated(true);
 					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					frame.pack();
