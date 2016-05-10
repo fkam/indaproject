@@ -54,7 +54,7 @@ public class Main {
 			
 			Graphics g = window.getGraphics();
 			
-			g.setColor(Color.white);
+			g.setColor(Color.black);
 			g.fillRect(0, 0, window.getWidth(), window.getHeight());
 
 			
@@ -70,13 +70,33 @@ public class Main {
 				if(!sprite.isWalking()){
 					
 					if(window.isKeyDown(KeyEvent.VK_UP)){
-						sprite.walk(Sprite.DIRECTION_UP);
+						if (level.canWalk(sprite.getTileX(), sprite.getTileY()-1)){
+							sprite.walk(Sprite.DIRECTION_UP);
+						}
+						else{
+							sprite.setDirection(Sprite.DIRECTION_UP);
+						}
 					}else if(window.isKeyDown(KeyEvent.VK_LEFT)){
-						sprite.walk(Sprite.DIRECTION_LEFT);
+						if (level.canWalk(sprite.getTileX()-1, sprite.getTileY())){
+							sprite.walk(Sprite.DIRECTION_LEFT);
+						}
+						else{
+							sprite.setDirection(Sprite.DIRECTION_LEFT);
+						}
 					}else if(window.isKeyDown(KeyEvent.VK_RIGHT)){
-						sprite.walk(Sprite.DIRECTION_RIGHT);
+						if (level.canWalk(sprite.getTileX()+1 , sprite.getTileY())){
+							sprite.walk(Sprite.DIRECTION_RIGHT);
+						}
+						else{
+							sprite.setDirection(Sprite.DIRECTION_RIGHT);
+						}
 					}else if(window.isKeyDown(KeyEvent.VK_DOWN)){
-						sprite.walk(Sprite.DIRECTION_DOWN);
+						if (level.canWalk(sprite.getTileX() , sprite.getTileY()+1)){
+							sprite.walk(Sprite.DIRECTION_DOWN);
+						}
+						else{
+							sprite.setDirection(Sprite.DIRECTION_DOWN);
+						}
 					}
 					
 				}
