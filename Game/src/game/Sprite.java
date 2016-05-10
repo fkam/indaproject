@@ -55,9 +55,7 @@ public class Sprite {
 	
 	public void draw(Graphics g){
 		
-		int tileID;
-		
-		tileID = tileOffset + direction*tilemap.getColumns();
+		int tileID = tileOffset + direction*tilemap.getColumns();
 		
 		int frame = 1;
 		if(walking){
@@ -75,7 +73,10 @@ public class Sprite {
 			}
 		}
 		
-		tilemap.drawImage(g, x*32 + 16 - tilemap.getTileWidth()/2 + offsetX, y*32 + 16 - tilemap.getTileHeight()/2 + offsetY, tileID + frame);
+		int drawX = x*32 + 16 - tilemap.getTileWidth()/2 + offsetX;
+		int drawY = y*32 + 16 - tilemap.getTileHeight() + offsetY;
+		
+		tilemap.drawImage(g, drawX, drawY, tileID + frame);
 	}
 	
 	public void walk(int direction){
@@ -105,5 +106,13 @@ public class Sprite {
 	
 	public boolean isWalking() {
 		return walking;
+	}
+	
+	public int getX() {
+		return x*32 + 16 + offsetX;
+	}
+	
+	public int getY() {
+		return y*32 + 16 + offsetY;
 	}
 }

@@ -27,7 +27,7 @@ public class Main {
 			boolean[][] walkable = new boolean[levelSize][levelSize];
 			for(int x = 0; x < levelSize; x++){
 				for(int y = 0; y < levelSize; y++){
-					tiles[x][y] = r.nextInt(1000);
+					tiles[x][y] = r.nextInt(100);
 					walkable[x][y] = r.nextInt(5) != 0;
 				}
 			}
@@ -37,7 +37,7 @@ public class Main {
 			Tilemap spriteSheet = new Tilemap("spritesheet1.png", 12, 33, 35);
 			
 			sprites = new ArrayList<>();
-			for(int i = 0; i < 1000; i++){
+			for(int i = 0; i < 1; i++){
 				sprites.add(new Sprite(spriteSheet, r.nextInt(4) * 3));
 			}
 		} catch (IOException e) {
@@ -52,6 +52,10 @@ public class Main {
 			
 			g.setColor(Color.white);
 			g.fillRect(0, 0, window.getWidth(), window.getHeight());
+
+			
+			Sprite s = sprites.get(0);
+			g.translate(window.getWidth()/2 - s.getX(), window.getHeight()/2 - s.getY());
 			
 			level.draw(g);
 			
