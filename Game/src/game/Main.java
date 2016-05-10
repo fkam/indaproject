@@ -9,13 +9,16 @@ import java.util.Random;
 
 public class Main {
 	
+	
+	
 	private GameWindow window;
 	
 	private Level level;
 	
 	private ArrayList<Sprite> sprites;
 	
-
+	private Sprite player;
+	
 	Random r = new Random();
 	
 	public Main() {
@@ -41,9 +44,11 @@ public class Main {
 			Tilemap spriteSheet = new Tilemap("spritesheet1.png", 12, 33, 35);
 			
 			sprites = new ArrayList<>();
-			for(int i = 0; i < 1; i++){
-				sprites.add(new Sprite(spriteSheet, r.nextInt(4) * 3));
+			for(int i = 0; i < 100; i++){
+				sprites.add(new NPC(spriteSheet, r.nextInt(4) * 3));
 			}
+			player = new Sprite(spriteSheet, 0);
+			sprites.add(player); 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -58,31 +63,31 @@ public class Main {
 			g.fillRect(0, 0, window.getWidth(), window.getHeight());
 
 			
-			Sprite s = sprites.get(0);
-			g.translate(window.getWidth()/2 - s.getX(), window.getHeight()/2 - s.getY());
+			g.translate(window.getWidth()/2 - player.getX(), window.getHeight()/2 - player.getY());
 			
 			level.draw(g);
+			
+			if(!player.isWalking()){
+				if(window.isKeyDown(KeyEvent.VK_UP)){
+					player.walk(level, Sprite.DIRECTION_UP);
+				}
+				else if(window.isKeyDown(KeyEvent.VK_LEFT)){
+					player.walk(level, Sprite.DIRECTION_LEFT);
+				}
+				else if(window.isKeyDown(KeyEvent.VK_RIGHT)){
+					player.walk(level, Sprite.DIRECTION_RIGHT);
+				}
+				else if(window.isKeyDown(KeyEvent.VK_DOWN)){
+					player.walk(level, Sprite.DIRECTION_DOWN);
+				}
+			}
 			
 			for(int i = 0; i < sprites.size(); i++){
 				
 				Sprite sprite = sprites.get(i);
 				
-				if(!sprite.isWalking()){
-					if(window.isKeyDown(KeyEvent.VK_UP)){
-						sprite.walk(level, Sprite.DIRECTION_UP);
-					}
-					else if(window.isKeyDown(KeyEvent.VK_LEFT)){
-						sprite.walk(level, Sprite.DIRECTION_LEFT);
-					}
-					else if(window.isKeyDown(KeyEvent.VK_RIGHT)){
-						sprite.walk(level, Sprite.DIRECTION_RIGHT);
-					}
-					else if(window.isKeyDown(KeyEvent.VK_DOWN)){
-						sprite.walk(level, Sprite.DIRECTION_DOWN);
-					}
-				}
 				
-				sprite.update();
+				sprite.update(level);
 				sprite.draw(g);
 				
 			}

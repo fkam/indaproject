@@ -34,7 +34,7 @@ public class Sprite {
 		offsetY = 0;
 	}
 	
-	public void update(){
+	public void update(Level level){
 		
 		if(walking){
 			if(direction == DIRECTION_DOWN){
