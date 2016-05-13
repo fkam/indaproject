@@ -1,7 +1,15 @@
-# indaproject super game.
-Språk: Java(awt.Graphics).
+# indaproject
+Språk: Java
 Personer: Daniel Isheden & Felix Kam.
-Ett RPG,  personen ska kunna styra en gubbe och sedan finns det AI gubbar som rör sig runt i världen random.
-"Kameran" kommer att vara centrerad på användaren, användaren har olika special attacker utöver den vanliga close-combat attack.
+
+Detta är ett spelprojekt, kommer att vara end 2D-rpg. Animerade gubbar kommer att gå runt i världen där en av dem är spelaren,
+det går ut på att spelaren ska försöka döda AI-gubbarna innan spelaren själv blir dödad. 
+
+Vi har några extra funktioner som vi kommer att implementera om vi har tid över: Spelaren ska kunna utföra special attacker, 
+olika gubbar med olika attacker. Kommer att finnas bossar för att göra spelet svårare.
+
+Vi testar vårt program med successivt testingsprogram.
+
+
 
 
