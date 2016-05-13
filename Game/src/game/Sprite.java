@@ -3,7 +3,13 @@ package game;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import static game.Sprite.State.*; //Makes it possible to write IDLE instead of State.IDLE.
+
+
 public class Sprite {
+	
+	private static final int ATTACK_LENGTH = 50;
+	private static final int ATTACK_TIME = 25;
 	
 
 	public static final int DIRECTION_DOWN = 0;
@@ -15,31 +21,52 @@ public class Sprite {
 	private Tilemap tilemap;
 	private int tileOffset;
 	
+	private Tilemap swordMap;
+	
 	
 	protected int x, y;
 	protected int direction;
 	
-	private boolean walking;
+	
+	
+	protected enum State{
+		IDLE,
+		WALKING,
+		ATTACKING,
+		DEAD
+		//USING_SPECIAL_ATTACK
+	}
+	private State state;
+	
+
 	private int offsetX, offsetY;
 	
+	private int attackFrame;
 	
 	
-	public Sprite(Tilemap tilemap, int tileOffset, int x, int y){
+	
+	public Sprite(Tilemap tilemap, int tileOffset, Tilemap swordMap, int x, int y){
 		this.tilemap = tilemap;
 		this.tileOffset = tileOffset;
+		
+		this.swordMap = swordMap;
 		
 		this.x = x;
 		this.y = y;
 		direction = DIRECTION_DOWN;
 		
-		walking = false;
+		
+		state = IDLE;
+		
 		offsetX = 0;
 		offsetY = 0;
+		
+		attackFrame = 0;
 	}
 	
-	public void update(Level level, ArrayList<Sprite> sprites){
+	public void update(Level level, ArrayList<Sprite> sprites, ArrayList<SpecialEffect> specialEffects){
 		
-		if(walking){
+		if(state == WALKING){
 			if(direction == DIRECTION_DOWN){
 				offsetY++;
 			}
@@ -54,9 +81,27 @@ public class Sprite {
 			}
 			
 			if(offsetX == 0 && offsetY == 0){
-				walking = false;
+				state = IDLE;
 			}
 		}
+		
+		if(state == ATTACKING){
+			attackFrame++;
+			
+			if(attackFrame == ATTACK_TIME){
+				int fx = getFacingX();
+				int fy = getFacingY();
+				Sprite target = getSpriteAt(fx, fy, sprites);
+				if(target != null){
+					target.kill();
+				}
+			}
+			
+			if(attackFrame == ATTACK_LENGTH){
+				state = IDLE;
+			}
+		}
+		
 	}
 	
 	public void draw(Graphics g){
@@ -64,7 +109,7 @@ public class Sprite {
 		int tileID = tileOffset + direction*tilemap.getColumns();
 		
 		int frame = 1;
-		if(walking){
+		if(state == WALKING){
 			int off = Math.abs(offsetX) + Math.abs(offsetY);
 			
 			frame = 0;
@@ -86,49 +131,60 @@ public class Sprite {
 	}
 	
 	public void walk(Level level, ArrayList<Sprite> sprites, int direction){
-		if (walking){ 
+		if (state != IDLE){ 
 			return; 
 		}
 		
 		this.direction = direction;
 		if(direction == DIRECTION_DOWN){
-			if (level.canWalk(x, y+1) && isTileFree(x, y+1, sprites)){
+			if (level.canWalk(x, y+1) && getSpriteAt(x, y+1, sprites) == null){
 				y++;
 				offsetY = -32;
-				walking = true;
+				state = WALKING;
 			}
 		}
 		if(direction == DIRECTION_LEFT){
-			if (level.canWalk(x-1, y) && isTileFree(x-1, y, sprites)){
+			if (level.canWalk(x-1, y) && getSpriteAt(x-1, y, sprites) == null){
 				x--;
 				offsetX = +32;
-				walking = true;
+				state = WALKING;
 			}
 		}
 		if(direction == DIRECTION_RIGHT){
-			if (level.canWalk(x+1, y) && isTileFree(x+1, y, sprites)){
+			if (level.canWalk(x+1, y) && getSpriteAt(x+1, y, sprites) == null){
 				x++;
 				offsetX = -32;
-				walking = true;
+				state = WALKING;
 			}
 		}
 		if(direction == DIRECTION_UP){
-			if (level.canWalk(x, y-1) && isTileFree(x, y-1, sprites)){
+			if (level.canWalk(x, y-1) && getSpriteAt(x, y-1, sprites) == null){
 				y--;
 				offsetY = +32;
-				walking = true;
+				state = WALKING;
 			}
 		}
 	}
 	
-	private boolean isTileFree(int x, int y, ArrayList<Sprite> sprites){
+	public void attack(ArrayList<SpecialEffect> specialEffects){
+		if(state != IDLE){
+			return;
+		}
+		
+		state = ATTACKING;
+		attackFrame = 0;
+		
+		specialEffects.add(new SwordEffect(swordMap, getFacingX(), getFacingY(), direction, ATTACK_LENGTH));
+	}
+	
+	private Sprite getSpriteAt(int x, int y, ArrayList<Sprite> sprites){
 		for(int i = 0; i < sprites.size(); i++){
 			Sprite s = sprites.get(i);
 			if(s.getTileX() == x && s.getTileY() == y){
-				return false;
+				return s;
 			}
 		}
-		return true;
+		return null;
 	}
 	
 	
@@ -136,8 +192,12 @@ public class Sprite {
 		this.direction = direction;
 	}
 	
+	public boolean isIdle(){
+		return state == IDLE;
+	}
+	
 	public boolean isWalking() {
-		return walking;
+		return state == WALKING;
 	}
 	
 	public int getTileX(){
@@ -145,6 +205,34 @@ public class Sprite {
 	}
 	
 	public int getTileY(){
+		return y;
+	}
+	
+	public void kill(){
+		state = DEAD;
+	}
+	
+	public boolean isAlive(){
+		return state != DEAD;
+	}
+	
+	public int getFacingX(){
+		if(direction == DIRECTION_LEFT){
+			return x - 1;
+		}
+		if(direction == DIRECTION_RIGHT){
+			return x + 1;
+		}
+		return x;
+	}
+	
+	public int getFacingY(){
+		if(direction == DIRECTION_UP){
+			return y - 1;
+		}
+		if(direction == DIRECTION_DOWN){
+			return y + 1;
+		}
 		return y;
 	}
 	
