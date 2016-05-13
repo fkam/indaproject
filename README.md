@@ -8,5 +8,8 @@ det går ut på att spelaren ska försöka döda AI-gubbarna innan spelaren sjä
 Vi har några extra funktioner som vi kommer att implementera om vi har tid över: Spelaren ska kunna utföra special attacker, 
 olika gubbar med olika attacker. Kommer att finnas bossar för att göra spelet svårare.
 
+Vi testar vårt program med successivt testingsprogram.
+
+
 
 
