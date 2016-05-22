@@ -42,5 +42,4 @@ public class Tilemap {
 	public int getTileHeight() {
 		return tileHeight;
 	}
-
 }

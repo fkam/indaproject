@@ -20,8 +20,13 @@ public class Main {
 	Tilemap spriteSheet;
 	Tilemap swordMap;
 	
+	TileType desert, grass, bush;
 	
 	
+	
+
+	private TileType[][] layer1;
+	private TileType[][] layer2;
 	
 	private Level level;
 
@@ -36,10 +41,15 @@ public class Main {
 	public Main() {
 		window = new GameWindow(1280, 720);
 		try {
-			levelTilemap = new Tilemap("tilemap.png", 32, 32, 32);
+			levelTilemap = new Tilemap("tilemap.png", 64, 16, 16);
+			
+			grass = new TileType(30*levelTilemap.getColumns() + 0, levelTilemap.getColumns(), true);
+			desert = new TileType(36*levelTilemap.getColumns() + 0, levelTilemap.getColumns(), true);
+			bush = new TileType(30*levelTilemap.getColumns() + 4, levelTilemap.getColumns(), true);
 			
 			spriteSheet = new Tilemap("spritesheet1.png", 12, 33, 35);
 			swordMap = new Tilemap("sword.png", 4, 32, 32);
+			
 			player = new Sprite(spriteSheet, 0, swordMap, 0, 0);
 			
 			
@@ -54,25 +64,22 @@ public class Main {
 	
 	private void generateLevel(){
 
-		
-		
-		int[][] tiles = new int[LEVEL_WIDTH][LEVEL_HEIGHT];
-		boolean[][] walkable = new boolean[LEVEL_WIDTH][LEVEL_HEIGHT];
+
+		layer1 = new TileType[LEVEL_WIDTH][LEVEL_HEIGHT];
+		layer2 = new TileType[LEVEL_WIDTH][LEVEL_HEIGHT];
 		for(int x = 0; x < LEVEL_WIDTH; x++){
 			for(int y = 0; y < LEVEL_HEIGHT; y++){
-				tiles[x][y] = 29;
-				walkable[x][y] = r.nextInt(10) != 0;
-				if(!walkable[x][y]){
-					tiles[x][y] = 32;
-				}
+				layer1[x][y] = desert;
+				layer2[x][y] = TileType.NULL_WALKABLE;
 			}
 		}
+		
 		
 		
 		sprites = new ArrayList<>();
 		sprites.add(player);
 		
-		for(int i = 0; i < 1000; i++){
+		for(int i = 0; i < 100; i++){
 			sprites.add(new NPC(spriteSheet, r.nextInt(4) * 3, swordMap, r.nextInt(LEVEL_WIDTH), r.nextInt(LEVEL_HEIGHT)));
 		}
 		
@@ -80,7 +87,11 @@ public class Main {
 		
 		player.resetToIdle(LEVEL_WIDTH/2, LEVEL_HEIGHT/2);
 		
-		level = new Level(levelTilemap, tiles, walkable);
+		level = new Level(levelTilemap, LEVEL_WIDTH, LEVEL_HEIGHT, 2, new TileType[][][]{layer1, layer2});
+	}
+	
+	private void updateLevel(){
+		level = new Level(levelTilemap, LEVEL_WIDTH, LEVEL_HEIGHT, 2, new TileType[][][]{layer1, layer2});
 	}
 
 	private void gameloop() {
@@ -91,16 +102,40 @@ public class Main {
 				generateLevel();
 			}
 			
+
+			int translateX = window.getWidth()/2 - player.getX(), translateY = window.getHeight()/2 - player.getY();
+			
+			int mouseX = Math.floorDiv(window.getMouseX() - translateX, 32), mouseY = Math.floorDiv(window.getMouseY() - translateY, 32);
+			System.out.println(mouseX + ", " + mouseY);
+			boolean levelChanged = false;
+			if(window.isMouseButtonDown(0)){
+				layer1[mouseX][mouseY] = grass;
+				levelChanged = true;
+			}
+			if(window.isMouseButtonDown(1)){
+				layer1[mouseX][mouseY] = desert;
+				levelChanged = true;
+			}
+			if(window.isMouseButtonDown(2)){
+				layer2[mouseX][mouseY] = bush;
+				levelChanged = true;
+			}
+			
+			if(levelChanged){
+				updateLevel();
+			}
+			
+			
 			
 			Graphics g = window.getGraphics();
 			
 			g.setColor(Color.black);
 			g.fillRect(0, 0, window.getWidth(), window.getHeight());
 
-
-			g.translate(window.getWidth()/2 - player.getX(), window.getHeight()/2 - player.getY());
+			g.translate(translateX, translateY);
 			
-			level.draw(g);
+			level.drawLayer(g, 0);
+			level.drawLayer(g, 1);
 			
 			
 			if(window.isKeyDown(KeyEvent.VK_UP)){

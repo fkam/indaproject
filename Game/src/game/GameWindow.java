@@ -4,12 +4,15 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-public class GameWindow implements KeyListener {
+public class GameWindow implements KeyListener, MouseListener, MouseMotionListener {
 	
 	private JFrame frame; //The window
 	private BufferStrategy bufferStrategy; //Object for doing high-performance buffer swapping
@@ -17,6 +20,9 @@ public class GameWindow implements KeyListener {
 	private Graphics graphics; //The Graphics object of the current frame.
 	
 	private boolean[] pressedKeys;
+	
+	private int mouseX, mouseY;
+	private boolean[] pressedMouseButtons;
 	
 	
 	/**
@@ -26,6 +32,7 @@ public class GameWindow implements KeyListener {
 		
 		
 		pressedKeys = new boolean[65536];
+		pressedMouseButtons = new boolean[256];
 		
 		/*
 		 * Swing objects can only be modified from the AWT thread. Modifying them from the main thread
@@ -45,8 +52,10 @@ public class GameWindow implements KeyListener {
 					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					frame.pack();
 					frame.setVisible(true);
-					
+
 					frame.addKeyListener(GameWindow.this);
+					frame.addMouseListener(GameWindow.this);
+					frame.addMouseMotionListener(GameWindow.this);
 					
 					frame.createBufferStrategy(2);
 					bufferStrategy = frame.getBufferStrategy();
@@ -84,6 +93,37 @@ public class GameWindow implements KeyListener {
 	public int getHeight(){
 		return frame.getHeight();
 	}
+	
+
+	
+	
+	//Keys and mouse
+	public boolean isKeyDown(int keyCode){
+		if(keyCode < 0 || keyCode >= pressedKeys.length){
+			return false;
+		}
+		return pressedKeys[keyCode];
+	}
+
+	
+	public int getMouseX() {
+		return mouseX;
+	}
+	
+	public int getMouseY() {
+		return mouseY;
+	}
+	
+	public boolean isMouseButtonDown(int button){
+		if(button < 0 || button >= pressedMouseButtons.length){
+			return false;
+		}
+		return pressedMouseButtons[button];
+	}
+	
+	
+	
+	//Listener functions
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -104,12 +144,49 @@ public class GameWindow implements KeyListener {
 	}
 
 	@Override
+	public void mouseDragged(MouseEvent e) {
+		mouseX = e.getX();
+		mouseY = e.getY();
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		mouseX = e.getX();
+		mouseY = e.getY();
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		int button = e.getButton() - 1; //Button indices start at usually.
+		System.out.println(button);
+		if(button < 0 || button >= pressedMouseButtons.length){
+			return;
+		}
+		pressedMouseButtons[button] = true;
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		int button = e.getButton() - 1; //Button indices start at usually.
+		if(button < 0 || button >= pressedMouseButtons.length){
+			return;
+		}
+		pressedMouseButtons[button] = false;
+	}
+	
+	
+	
+	//Unused events
+
+	@Override
 	public void keyTyped(KeyEvent e) {}
 	
-	public boolean isKeyDown(int keyCode){
-		if(keyCode < 0 || keyCode >= pressedKeys.length){
-			return false;
-		}
-		return pressedKeys[keyCode];
-	}
+	@Override
+	public void mouseClicked(MouseEvent e) {}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+
+	@Override
+	public void mouseExited(MouseEvent e) {}
 }
