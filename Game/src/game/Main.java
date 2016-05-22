@@ -36,7 +36,7 @@ public class Main {
 	public Main() {
 		window = new GameWindow(1280, 720);
 		try {
-			levelTilemap = new Tilemap("tilemap3.png", 32, 32, 32);
+			levelTilemap = new Tilemap("tilemap.png", 32, 32, 32);
 			
 			spriteSheet = new Tilemap("spritesheet1.png", 12, 33, 35);
 			swordMap = new Tilemap("sword.png", 4, 32, 32);
@@ -60,7 +60,7 @@ public class Main {
 		boolean[][] walkable = new boolean[LEVEL_WIDTH][LEVEL_HEIGHT];
 		for(int x = 0; x < LEVEL_WIDTH; x++){
 			for(int y = 0; y < LEVEL_HEIGHT; y++){
-				tiles[x][y] = 100+r.nextInt(100);
+				tiles[x][y] = 29;
 				walkable[x][y] = r.nextInt(10) != 0;
 				if(!walkable[x][y]){
 					tiles[x][y] = 32;
