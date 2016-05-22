@@ -25,7 +25,7 @@ public class Main {
 	Random r = new Random();
 	
 	public Main() {
-		window = new GameWindow(1920, 1080);
+		window = new GameWindow(1280, 720);
 		try {
 			Tilemap levelTilemap = new Tilemap("tilemap3.png", 32, 32, 32);
 			
