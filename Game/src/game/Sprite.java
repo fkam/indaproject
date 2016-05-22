@@ -23,6 +23,9 @@ public class Sprite {
 	
 	private Tilemap swordMap;
 	
+	private Stats stats;
+	
+	
 	
 	protected int x, y;
 	protected int direction;
@@ -33,7 +36,7 @@ public class Sprite {
 		IDLE,
 		WALKING,
 		ATTACKING,
-		DEAD
+		DEAD,
 		//USING_SPECIAL_ATTACK
 	}
 	private State state;
@@ -42,6 +45,7 @@ public class Sprite {
 	private int offsetX, offsetY;
 	
 	private int attackFrame;
+	
 	
 	
 	
@@ -62,6 +66,8 @@ public class Sprite {
 		offsetY = 0;
 		
 		attackFrame = 0;
+		stats = new Stats();
+		stats.setStats(6);
 	}
 	
 	public void update(Level level, ArrayList<Sprite> sprites, ArrayList<SpecialEffect> specialEffects){
@@ -93,7 +99,8 @@ public class Sprite {
 				int fy = getFacingY();
 				Sprite target = getSpriteAt(fx, fy, sprites);
 				if(target != null){
-					target.kill();
+					target.damage(stats.getDamage());
+					
 				}
 			}
 			
@@ -104,6 +111,11 @@ public class Sprite {
 		
 	}
 	
+	private void damage(int damage) {
+		stats.hit(damage);
+		
+	}
+
 	public void draw(Graphics g){
 		
 		int tileID = tileOffset + direction*tilemap.getColumns();
@@ -230,7 +242,7 @@ public class Sprite {
 	}
 	
 	public boolean isAlive(){
-		return state != DEAD;
+		return state != DEAD && stats.isAlive() ;
 	}
 	
 	public int getFacingX(){
