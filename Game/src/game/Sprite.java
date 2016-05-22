@@ -191,6 +191,23 @@ public class Sprite {
 	public void setDirection(int direction) {
 		this.direction = direction;
 	}
+
+	public void setPosition(int x, int y){
+		this.x = x;
+		this.y = y;
+	}
+	
+	public void resetToIdle(int x, int y){
+		
+		this.x = x;
+		this.y = y;
+		
+		state = IDLE;
+		offsetX = 0;
+		offsetY = 0;
+		
+		direction = DIRECTION_DOWN;
+	}
 	
 	public boolean isIdle(){
 		return state == IDLE;

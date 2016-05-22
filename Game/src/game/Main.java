@@ -10,9 +10,18 @@ import java.util.Random;
 
 public class Main {
 	
+	private static final int LEVEL_WIDTH = 64, LEVEL_HEIGHT = 64;
+	
 	
 	
 	private GameWindow window;
+	
+	Tilemap levelTilemap;
+	Tilemap spriteSheet;
+	Tilemap swordMap;
+	
+	
+	
 	
 	private Level level;
 
@@ -27,46 +36,61 @@ public class Main {
 	public Main() {
 		window = new GameWindow(1280, 720);
 		try {
-			Tilemap levelTilemap = new Tilemap("tilemap3.png", 32, 32, 32);
+			levelTilemap = new Tilemap("tilemap3.png", 32, 32, 32);
 			
-			int levelSize = 64;
-			int[][] tiles = new int[levelSize][levelSize];
-			boolean[][] walkable = new boolean[levelSize][levelSize];
-			for(int x = 0; x < levelSize; x++){
-				for(int y = 0; y < levelSize; y++){
-					tiles[x][y] = 100+r.nextInt(100);
-					walkable[x][y] = r.nextInt(10) != 0;
-					if(!walkable[x][y]){
-						tiles[x][y] = 32;
-					}
-				}
-			}
+			spriteSheet = new Tilemap("spritesheet1.png", 12, 33, 35);
+			swordMap = new Tilemap("sword.png", 4, 32, 32);
+			player = new Sprite(spriteSheet, 0, swordMap, 0, 0);
 			
-			level = new Level(levelTilemap, tiles, walkable);
 			
-			Tilemap spriteSheet = new Tilemap("spritesheet1.png", 12, 33, 35);
-			Tilemap swordMap = new Tilemap("sword.png", 4, 32, 32);
-			
-			sprites = new ArrayList<>();
-			
-			player = new Sprite(spriteSheet, 0, swordMap, levelSize/2, levelSize/2);
-			sprites.add(player); 
-			
-			for(int i = 0; i < 1000; i++){
-				sprites.add(new NPC(spriteSheet, r.nextInt(4) * 3, swordMap, r.nextInt(levelSize), r.nextInt(levelSize)));
-			}
-			
-			specialEffects = new ArrayList<>();
 			
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		generateLevel();
+	}
+	
+	private void generateLevel(){
+
+		
+		
+		int[][] tiles = new int[LEVEL_WIDTH][LEVEL_HEIGHT];
+		boolean[][] walkable = new boolean[LEVEL_WIDTH][LEVEL_HEIGHT];
+		for(int x = 0; x < LEVEL_WIDTH; x++){
+			for(int y = 0; y < LEVEL_HEIGHT; y++){
+				tiles[x][y] = 100+r.nextInt(100);
+				walkable[x][y] = r.nextInt(10) != 0;
+				if(!walkable[x][y]){
+					tiles[x][y] = 32;
+				}
+			}
+		}
+		
+		
+		sprites = new ArrayList<>();
+		sprites.add(player);
+		
+		for(int i = 0; i < 1000; i++){
+			sprites.add(new NPC(spriteSheet, r.nextInt(4) * 3, swordMap, r.nextInt(LEVEL_WIDTH), r.nextInt(LEVEL_HEIGHT)));
+		}
+		
+		specialEffects = new ArrayList<>();
+		
+		player.resetToIdle(LEVEL_WIDTH/2, LEVEL_HEIGHT/2);
+		
+		level = new Level(levelTilemap, tiles, walkable);
 	}
 
 	private void gameloop() {
 		
 		while(true){
+			
+			if(window.isKeyDown(KeyEvent.VK_L)){
+				generateLevel();
+			}
+			
 			
 			Graphics g = window.getGraphics();
 			
