@@ -67,7 +67,7 @@ public class Sprite {
 		
 		attackFrame = 0;
 		stats = new Stats();
-		stats.setLevel(100);
+		stats.setLevel(1);
 	}
 	
 	public void update(Level level, ArrayList<Sprite> sprites, ArrayList<SpecialEffect> specialEffects){

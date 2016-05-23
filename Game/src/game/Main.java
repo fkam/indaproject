@@ -85,7 +85,7 @@ public class Main {
 		sprites = new ArrayList<>();
 		sprites.add(player);
 		
-		for(int i = 0; i < 100; i++){
+		for(int i = 0; i < 1000; i++){
 			sprites.add(new NPC(spriteSheet, r.nextInt(4) * 3, swordMap, r.nextInt(LEVEL_WIDTH), r.nextInt(LEVEL_HEIGHT)));
 		}
 		
