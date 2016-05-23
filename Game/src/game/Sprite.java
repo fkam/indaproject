@@ -23,7 +23,7 @@ public class Sprite {
 	
 	private Tilemap swordMap;
 	
-	private Stats stats;
+	protected Stats stats;
 	
 	
 	
@@ -74,16 +74,16 @@ public class Sprite {
 		
 		if(state == WALKING){
 			if(direction == DIRECTION_DOWN){
-				offsetY++;
+				offsetY += 2;
 			}
 			if(direction == DIRECTION_LEFT){
-				offsetX--;
+				offsetX -= 2;
 			}
 			if(direction == DIRECTION_RIGHT){
-				offsetX++;
+				offsetX += 2;
 			}
 			if(direction == DIRECTION_UP){
-				offsetY--;
+				offsetY -= 2;
 			}
 			
 			if(offsetX == 0 && offsetY == 0){
@@ -112,7 +112,19 @@ public class Sprite {
 					int damage = (int)Math.round(baseDamage * modifier);
 					
 					target.damage(damage);
-					specialEffects.add(new DamageIndicatorEffect(damage, target.getX(), target.getY(), crit));
+					
+					if(crit){
+						specialEffects.add(new MessageEffect(Integer.toString(damage), target.getX(), target.getY(), 1, 0, 0));
+					}else{
+						specialEffects.add(new MessageEffect(Integer.toString(damage), target.getX(), target.getY(), 1, 1, 1));
+					}
+					
+					if(!target.isAlive()){
+						if(stats.giveXP(target.getLevel())){
+							//We leveled up! Show a message!
+							specialEffects.add(new MessageEffect("Level up!", getX(), getY(), 0, 1, 1));
+						}
+					}
 				}
 			}
 			
@@ -123,6 +135,10 @@ public class Sprite {
 		
 	}
 	
+	private int getLevel() {
+		return stats.getLevel();
+	}
+
 	private void damage(int damage) {
 		stats.hit(damage);
 		

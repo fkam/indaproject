@@ -7,19 +7,40 @@ import javax.swing.JProgressBar;
 
 public class Stats {
 
-	int level = 1;
-	int xp;
-	int health = 1;
-	int maxhealth;
+	private int level = 1;
+	private int xp;
+	private int health = 1;
+	private int maxHealth;
+	
+	private double levelUpMultiplier;
 
 	
 	public void setLevel(int level){
 		
 		this.level = level;
-		this.xp = 0;
+		
+		xp = 0;
 		health = level * 10;
-		maxhealth = health;
+		maxHealth = health;
+		
+		levelUpMultiplier = 10;
 
+	}
+	
+	public void setLevelUpMultiplier(double levelUpMultiplier) {
+		this.levelUpMultiplier = levelUpMultiplier;
+	}
+	
+
+
+	public boolean giveXP(int xp) {
+		this.xp += xp;
+		
+		if(this.xp >= level*levelUpMultiplier){
+			setLevel(level+1);
+			return true;
+		}
+		return false;
 	}
 			
 	public int getDamage(){		
@@ -44,19 +65,23 @@ public class Stats {
 	public void draw(Graphics g, int x, int y){
 		
 		
-		float red = 1 - (float)health/maxhealth;
-		float green = (float)health/maxhealth;
+		float red = 1 - (float)health/maxHealth;
+		float green = (float)health/maxHealth;
 		
 		float divider = Math.max(red, green);
 		
 		g.setColor(new Color(red/divider, green/divider, 0));
-		g.fillRect(x-15, y, 30*health/maxhealth, 5);
+		g.fillRect(x-15, y, 30*health/maxHealth, 5);
 		
 		
 		g.setColor(Color.BLACK);
 		g.drawRect(x-15, y, 30, 5);
 		
 		
+	}
+
+	public int getLevel() {
+		return level;
 	}
 	
 }

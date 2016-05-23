@@ -10,6 +10,8 @@ public class NPC extends Sprite{
 	public NPC(Tilemap tilemap, int tileOffset, Tilemap swordMap, int x, int y) {
 		super(tilemap, tileOffset, swordMap, x, y);
 		r = new Random();
+		
+		stats.setLevelUpMultiplier(2.5);
 	}
 
 	public void update(Level level, ArrayList<Sprite> sprites, ArrayList<SpecialEffect> specialEffects){

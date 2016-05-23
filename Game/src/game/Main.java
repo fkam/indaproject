@@ -12,7 +12,7 @@ import java.util.Random;
 
 public class Main {
 	
-	private static final int LEVEL_WIDTH = 64, LEVEL_HEIGHT = 64;
+	private static final int LEVEL_WIDTH = 32, LEVEL_HEIGHT = 32;
 	
 	
 	
@@ -101,6 +101,9 @@ public class Main {
 	}
 
 	private void gameloop() {
+
+
+		long time = System.nanoTime();
 		
 		while(true){
 			
@@ -201,14 +204,28 @@ public class Main {
 				}
 			}
 			
+
+			//Undo the camera transform so that we can draw the user interface
+			g.translate(-translateX, -translateY);
+			
+			
 			window.swapBuffers();
 			
 			
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			
+			long currentTime = System.nanoTime();
+			long timeTaken = currentTime - time;
+			long sleepTime = (1_000_000_000 / 50 - timeTaken) / 1_000_000;
+			
+			if(sleepTime > 0){
+				try {
+					Thread.sleep(sleepTime);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
+			
+			time += 1_000_000_000 / 50;
 		}
 	}
 	
