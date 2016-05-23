@@ -138,6 +138,7 @@ public class Main {
 			level.drawLayer(g, 1);
 			
 			
+			
 			if(window.isKeyDown(KeyEvent.VK_UP)){
 				player.walk(level, sprites, Sprite.DIRECTION_UP);
 			}
@@ -159,8 +160,9 @@ public class Main {
 			for(int i = 0; i < sprites.size(); i++){
 				Sprite sprite = sprites.get(i);
 				sprite.update(level, sprites, specialEffects);
-				sprite.draw(g);
+				
 			}
+			
 			for(int i = 0; i < sprites.size(); i++){
 				Sprite sprite = sprites.get(i);
 				if(!sprite.isAlive()){
@@ -169,6 +171,17 @@ public class Main {
 				}
 			}
 
+			for(int i = 0; i < sprites.size(); i++){
+				Sprite sprite = sprites.get(i);
+				sprite.draw(g);	
+			}
+			
+			for(int i = 0; i < sprites.size(); i++){
+				Sprite sprite = sprites.get(i);
+				sprite.drawHealthBar(g);
+				
+			}
+			
 			for(int i = 0; i < specialEffects.size(); i++){
 				SpecialEffect effect = specialEffects.get(i);
 				effect.update();
@@ -181,6 +194,7 @@ public class Main {
 					i--; //Makes sure we don't miss the next element.
 				}
 			}
+			
 			
 			
 			window.swapBuffers();

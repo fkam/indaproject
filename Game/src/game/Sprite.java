@@ -142,6 +142,12 @@ public class Sprite {
 		tilemap.drawImage(g, drawX, drawY, tileID + frame);
 	}
 	
+	public void drawHealthBar(Graphics g) {
+		stats.draw(g, getX(), getY());
+		
+	}
+	
+	
 	public void walk(Level level, ArrayList<Sprite> sprites, int direction){
 		if (state != IDLE){ 
 			return; 
@@ -272,4 +278,6 @@ public class Sprite {
 	public int getY() {
 		return y*32 + 16 + offsetY;
 	}
+
+	
 }
