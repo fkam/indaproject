@@ -1,6 +1,8 @@
 package game;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -16,11 +18,12 @@ public class Main {
 	
 	private GameWindow window;
 	
-	Tilemap levelTilemap;
-	Tilemap spriteSheet;
-	Tilemap swordMap;
+	private Tilemap levelTilemap;
+	private Tilemap spriteSheet;
+	private Tilemap swordMap;
+	private Font damageFont;
 	
-	TileType desert, grass, bush;
+	private TileType desert, grass, bush;
 	
 	
 	
@@ -49,6 +52,9 @@ public class Main {
 			
 			spriteSheet = new Tilemap("spritesheet1.png", 12, 33, 35);
 			swordMap = new Tilemap("sword.png", 4, 32, 32);
+			
+			damageFont = new Font("Arial", Font.PLAIN, 30);
+			
 			
 			player = new Sprite(spriteSheet, 0, swordMap, 0, 0);
 			
@@ -194,8 +200,6 @@ public class Main {
 					i--; //Makes sure we don't miss the next element.
 				}
 			}
-			
-			
 			
 			window.swapBuffers();
 			

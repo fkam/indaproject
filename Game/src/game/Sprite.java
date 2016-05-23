@@ -99,8 +99,20 @@ public class Sprite {
 				int fy = getFacingY();
 				Sprite target = getSpriteAt(fx, fy, sprites);
 				if(target != null){
-					target.damage(stats.getDamage());
 					
+					int baseDamage = stats.getDamage();
+					double modifier = 0.8 + 0.4*Math.random();
+					
+					boolean crit = false;
+					if(target.getDirection() == direction){
+						modifier *= 2;
+						crit = true;
+					}
+					
+					int damage = (int)Math.round(baseDamage * modifier);
+					
+					target.damage(damage);
+					specialEffects.add(new DamageIndicatorEffect(damage, target.getX(), target.getY(), crit));
 				}
 			}
 			
@@ -249,6 +261,10 @@ public class Sprite {
 	
 	public boolean isAlive(){
 		return state != DEAD && stats.isAlive() ;
+	}
+	
+	public int getDirection() {
+		return direction;
 	}
 	
 	public int getFacingX(){
