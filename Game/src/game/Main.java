@@ -14,6 +14,8 @@ public class Main {
 	
 	private static final int LEVEL_WIDTH = 32, LEVEL_HEIGHT = 32;
 	
+	private static final Font XP_FONT = new Font("Arial", Font.PLAIN, 30);
+	
 	
 	
 	private GameWindow window;
@@ -207,6 +209,20 @@ public class Main {
 
 			//Undo the camera transform so that we can draw the user interface
 			g.translate(-translateX, -translateY);
+			
+			Stats s = player.getStats();
+
+			g.setColor(new Color(0.3f, 0, 0.5f));
+			g.fillRect(0, window.getHeight()-30, window.getWidth(), 30);
+			
+			g.setColor(new Color(0.6f, 0, 1f));
+			g.fillRect(0, window.getHeight()-30, window.getWidth() * s.getXP() / s.getNeededXP(), 30);
+			
+			String xpText = "Level " + s.getLevel() + " Experience: " + s.getXP() + " / " + s.getNeededXP();
+			g.setFont(XP_FONT);
+			g.setColor(Color.white);
+			g.drawString(xpText, window.getWidth()/2 - g.getFontMetrics().stringWidth(xpText)/2, window.getHeight() - 5);
+			
 			
 			
 			window.swapBuffers();

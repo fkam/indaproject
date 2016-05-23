@@ -42,6 +42,15 @@ public class Stats {
 		}
 		return false;
 	}
+	
+	public int getXP() {
+		return xp;
+	}
+	
+	public int getNeededXP(){
+		return (int)(level*levelUpMultiplier);
+	}
+	
 			
 	public int getDamage(){		
 		return level + 3;

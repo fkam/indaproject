@@ -311,5 +311,8 @@ public class Sprite {
 		return y*32 + 16 + offsetY;
 	}
 
+	public Stats getStats() {
+		return stats;
+	}
 	
 }
