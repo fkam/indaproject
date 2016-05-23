@@ -13,7 +13,7 @@ public class Stats {
 	int maxhealth;
 
 	
-	public void setStats(int level){
+	public void setLevel(int level){
 		
 		this.level = level;
 		this.xp = 0;
@@ -43,7 +43,13 @@ public class Stats {
 
 	public void draw(Graphics g, int x, int y){
 		
-		g.setColor(new Color(1-(float)health/maxhealth,(float)health/maxhealth, 0));
+		
+		float red = 1 - (float)health/maxhealth;
+		float green = (float)health/maxhealth;
+		
+		float divider = Math.max(red, green);
+		
+		g.setColor(new Color(red/divider, green/divider, 0));
 		g.fillRect(x-15, y, 30*health/maxhealth, 5);
 		
 		
