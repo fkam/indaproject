@@ -68,12 +68,26 @@ public class Main {
 	}
 	
 	private void generateLevel(int stage){
+		boolean boss = false;
+		if(stage % 2 == 0){
+			boss = true;
+		}
 		
+							
 		int enemyCount = 10 + stage*10;
+		int enemyLevel = npcLevel;
+		
 		int size = (int)Math.ceil(Math.sqrt(enemyCount * 5));
+		
+		if (boss){
+			enemyCount = 1;
+			enemyLevel = npcLevel *2;
+			size = 6;
+		}
+		
 		int levelWidth = size;
 		int levelHeight = size;
-
+		
 		layer1 = new TileType[levelWidth][levelHeight];
 		layer2 = new TileType[levelWidth][levelHeight];
 		for(int x = 0; x < levelWidth; x++){
@@ -89,7 +103,7 @@ public class Main {
 		sprites.add(player);
 		
 		for(int i = 0; i < enemyCount; i++){
-			sprites.add(new NPC(spriteSheet, r.nextInt(4) * 3, swordMap, r.nextInt(levelWidth), r.nextInt(levelHeight), npcLevel));
+			sprites.add(new NPC(spriteSheet, r.nextInt(4) * 3, swordMap, r.nextInt(levelWidth), r.nextInt(levelHeight), enemyLevel));
 		}
 		
 		specialEffects = new ArrayList<>();
@@ -229,7 +243,7 @@ public class Main {
 			g.drawString(statsText, window.getWidth()/2 - g.getFontMetrics().stringWidth(statsText)/2, window.getHeight() - 5);
 			
 			if (sprites.size()-1 == 0){
-				npcLevel += 2;
+				npcLevel += 1;
 				generateLevel(++stage);
 			}
 			window.swapBuffers();
