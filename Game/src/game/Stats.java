@@ -3,7 +3,7 @@ package game;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import javax.swing.JProgressBar;
+
 
 public class Stats {
 
