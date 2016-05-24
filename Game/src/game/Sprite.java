@@ -49,7 +49,7 @@ public class Sprite {
 	
 	
 	
-	public Sprite(Tilemap tilemap, int tileOffset, Tilemap swordMap, int x, int y){
+	public Sprite(Tilemap tilemap, int tileOffset, Tilemap swordMap, int x, int y, int setLevel){
 		this.tilemap = tilemap;
 		this.tileOffset = tileOffset;
 		
@@ -67,7 +67,7 @@ public class Sprite {
 		
 		attackFrame = 0;
 		stats = new Stats();
-		stats.setLevel(1);
+		stats.setLevel(setLevel);
 	}
 	
 	public void update(Level level, ArrayList<Sprite> sprites, ArrayList<SpecialEffect> specialEffects){

@@ -7,10 +7,10 @@ public class NPC extends Sprite{
 	
 	private Random r;
 	
-	public NPC(Tilemap tilemap, int tileOffset, Tilemap swordMap, int x, int y) {
-		super(tilemap, tileOffset, swordMap, x, y);
+	public NPC(Tilemap tilemap, int tileOffset, Tilemap swordMap, int x, int y, int setLevel) {
+		super(tilemap, tileOffset, swordMap, x, y, 1);
 		r = new Random();
-		
+		stats.setLevel(setLevel);
 		stats.setLevelUpMultiplier(2.5);
 	}
 

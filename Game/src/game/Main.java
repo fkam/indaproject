@@ -42,6 +42,7 @@ public class Main {
 	
 	
 	Random r = new Random();
+	int stage = 1;
 	
 	public Main() {
 		window = new GameWindow(1280, 720);
@@ -58,7 +59,7 @@ public class Main {
 			damageFont = new Font("Arial", Font.PLAIN, 30);
 			
 			
-			player = new Sprite(spriteSheet, 0, swordMap, 0, 0);
+			player = new Sprite(spriteSheet, 0, swordMap, 0, 0,1);
 			
 			
 			
@@ -67,10 +68,10 @@ public class Main {
 			e.printStackTrace();
 		}
 		
-		generateLevel();
+		generateLevel(1, 1);
 	}
 	
-	private void generateLevel(){
+	private void generateLevel(int setLevel, int stage){
 
 
 		layer1 = new TileType[LEVEL_WIDTH][LEVEL_HEIGHT];
@@ -87,8 +88,8 @@ public class Main {
 		sprites = new ArrayList<>();
 		sprites.add(player);
 		
-		for(int i = 0; i < 1000; i++){
-			sprites.add(new NPC(spriteSheet, r.nextInt(4) * 3, swordMap, r.nextInt(LEVEL_WIDTH), r.nextInt(LEVEL_HEIGHT)));
+		for(int i = 0; i < stage*10; i++){
+			sprites.add(new NPC(spriteSheet, r.nextInt(4) * 3, swordMap, r.nextInt(LEVEL_WIDTH), r.nextInt(LEVEL_HEIGHT), setLevel));
 		}
 		
 		specialEffects = new ArrayList<>();
@@ -110,14 +111,14 @@ public class Main {
 		while(true){
 			
 			if(window.isKeyDown(KeyEvent.VK_L)){
-				generateLevel();
+				generateLevel(1,stage);
 			}
 			
 
 			int translateX = window.getWidth()/2 - player.getX(), translateY = window.getHeight()/2 - player.getY();
 			
 			int mouseX = Math.floorDiv(window.getMouseX() - translateX, 32), mouseY = Math.floorDiv(window.getMouseY() - translateY, 32);
-			System.out.println(mouseX + ", " + mouseY);
+		//	System.out.println(mouseX + ", " + mouseY);
 			boolean levelChanged = false;
 			if(window.isMouseButtonDown(0)){
 				layer1[mouseX][mouseY] = grass;
@@ -218,13 +219,15 @@ public class Main {
 			g.setColor(new Color(0.6f, 0, 1f));
 			g.fillRect(0, window.getHeight()-30, window.getWidth() * s.getXP() / s.getNeededXP(), 30);
 			
-			String xpText = "Level " + s.getLevel() + " Experience: " + s.getXP() + " / " + s.getNeededXP();
+			String test = "       Enemies left: " + Integer.toString(sprites.size()-1) + " Stage: " + stage;
+			String xpText = "Level " + s.getLevel() + " Experience: " + s.getXP() + " / " + s.getNeededXP() + test;
 			g.setFont(XP_FONT);
 			g.setColor(Color.white);
 			g.drawString(xpText, window.getWidth()/2 - g.getFontMetrics().stringWidth(xpText)/2, window.getHeight() - 5);
 			
-			
-			
+			if (sprites.size()-1 == 0){
+				generateLevel(s.getLevel()+3,++stage);
+			}
 			window.swapBuffers();
 			
 			
