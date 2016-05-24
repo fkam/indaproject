@@ -10,11 +10,6 @@ import java.util.Random;
 
 public class Main {
 	
-<<<<<<< HEAD
-=======
-	private static final int LEVEL_WIDTH = 32, LEVEL_HEIGHT = 32;
-	
->>>>>>> branch 'master' of https://github.com/fkam/indaproject.git
 	private static final Font UI_FONT = new Font("Arial", Font.PLAIN, 30);
 	
 	
