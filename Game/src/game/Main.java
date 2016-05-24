@@ -220,6 +220,8 @@ public class Main {
 					i--; //Makes sure we don't miss the next element.
 				}
 			}
+	
+			
 			
 
 			//Undo the camera transform so that we can draw the user interface
@@ -242,7 +244,7 @@ public class Main {
 			g.setColor(Color.white);
 			g.drawString(statsText, window.getWidth()/2 - g.getFontMetrics().stringWidth(statsText)/2, window.getHeight() - 5);
 			
-			if (sprites.size()-1 == 0){
+			if (sprites.size()-1 == 0 && player.isAlive()){
 				npcLevel += 1;
 				generateLevel(++stage);
 			}
