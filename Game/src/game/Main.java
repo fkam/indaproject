@@ -2,9 +2,7 @@ package game;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,7 +12,7 @@ public class Main {
 	
 	private static final int LEVEL_WIDTH = 32, LEVEL_HEIGHT = 32;
 	
-	private static final Font XP_FONT = new Font("Arial", Font.PLAIN, 30);
+	private static final Font UI_FONT = new Font("Arial", Font.PLAIN, 30);
 	
 	
 	
@@ -23,7 +21,7 @@ public class Main {
 	private Tilemap levelTilemap;
 	private Tilemap spriteSheet;
 	private Tilemap swordMap;
-	private Font damageFont;
+
 	
 	private TileType desert, grass, bush;
 	
@@ -42,7 +40,9 @@ public class Main {
 	
 	
 	Random r = new Random();
+	
 	int stage = 1;
+	int npcLevel = 1;
 	
 	public Main() {
 		window = new GameWindow(1280, 720);
@@ -56,7 +56,6 @@ public class Main {
 			spriteSheet = new Tilemap("spritesheet1.png", 12, 33, 35);
 			swordMap = new Tilemap("sword.png", 4, 32, 32);
 			
-			damageFont = new Font("Arial", Font.PLAIN, 30);
 			
 			
 			player = new Sprite(spriteSheet, 0, swordMap, 0, 0,1);
@@ -68,12 +67,12 @@ public class Main {
 			e.printStackTrace();
 		}
 		
-		generateLevel(1, 1);
+		generateLevel(1);
 	}
 	
-	private void generateLevel(int setLevel, int stage){
+	private void generateLevel(int stage){
 
-
+		
 		layer1 = new TileType[LEVEL_WIDTH][LEVEL_HEIGHT];
 		layer2 = new TileType[LEVEL_WIDTH][LEVEL_HEIGHT];
 		for(int x = 0; x < LEVEL_WIDTH; x++){
@@ -89,7 +88,7 @@ public class Main {
 		sprites.add(player);
 		
 		for(int i = 0; i < stage*10; i++){
-			sprites.add(new NPC(spriteSheet, r.nextInt(4) * 3, swordMap, r.nextInt(LEVEL_WIDTH), r.nextInt(LEVEL_HEIGHT), setLevel));
+			sprites.add(new NPC(spriteSheet, r.nextInt(4) * 3, swordMap, r.nextInt(LEVEL_WIDTH), r.nextInt(LEVEL_HEIGHT), npcLevel));
 		}
 		
 		specialEffects = new ArrayList<>();
@@ -111,7 +110,7 @@ public class Main {
 		while(true){
 			
 			if(window.isKeyDown(KeyEvent.VK_L)){
-				generateLevel(1,stage);
+				generateLevel(stage);
 			}
 			
 
@@ -223,13 +222,14 @@ public class Main {
 			String statsText= ""; 
 			statsText += "HP: " + s.currentHP() + " / " + s.maxHP();
 			statsText += "   Level " + s.getLevel() + "   Experience: " + s.getXP() + " / " + s.getNeededXP();
-			statsText += "   Stage: " + stage + "   Enemies left: " + Integer.toString(sprites.size()-1)  ;
-			g.setFont(XP_FONT);
+			statsText += "   Stage: " + stage + "   Enemies left: " + (sprites.size()-1)  ;
+			g.setFont(UI_FONT);
 			g.setColor(Color.white);
 			g.drawString(statsText, window.getWidth()/2 - g.getFontMetrics().stringWidth(statsText)/2, window.getHeight() - 5);
 			
 			if (sprites.size()-1 == 0){
-				generateLevel(s.getLevel()+3,++stage);
+				npcLevel += 2;
+				generateLevel(++stage);
 			}
 			window.swapBuffers();
 			
