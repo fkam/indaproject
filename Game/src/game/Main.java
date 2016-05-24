@@ -21,7 +21,7 @@ public class Main {
 	private Tilemap swordMap;
 
 	
-	private TileType desert, grass, bush;
+	private TileType desert, grass;
 	
 	
 	
@@ -49,7 +49,6 @@ public class Main {
 			
 			grass = new TileType(30*levelTilemap.getColumns() + 0, levelTilemap.getColumns(), true);
 			desert = new TileType(36*levelTilemap.getColumns() + 0, levelTilemap.getColumns(), true);
-			bush = new TileType(30*levelTilemap.getColumns() + 4, levelTilemap.getColumns(), true);
 			
 			spriteSheet = new Tilemap("spritesheet1.png", 12, 33, 35);
 			swordMap = new Tilemap("sword.png", 4, 32, 32);
@@ -79,7 +78,7 @@ public class Main {
 		layer2 = new TileType[levelWidth][levelHeight];
 		for(int x = 0; x < levelWidth; x++){
 			for(int y = 0; y < levelHeight; y++){
-				layer1[x][y] = desert;
+				layer1[x][y] = r.nextBoolean() ? desert : grass;
 				layer2[x][y] = TileType.NULL_WALKABLE;
 			}
 		}
@@ -118,7 +117,7 @@ public class Main {
 
 			int translateX = window.getWidth()/2 - player.getX(), translateY = window.getHeight()/2 - player.getY();
 			
-			int mouseX = Math.floorDiv(window.getMouseX() - translateX, 32), mouseY = Math.floorDiv(window.getMouseY() - translateY, 32);
+			//int mouseX = Math.floorDiv(window.getMouseX() - translateX, 32), mouseY = Math.floorDiv(window.getMouseY() - translateY, 32);
 		//	System.out.println(mouseX + ", " + mouseY);
 			/*boolean levelChanged = false;
 			if(window.isMouseButtonDown(0)){
