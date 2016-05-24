@@ -219,11 +219,14 @@ public class Main {
 			g.setColor(new Color(0.6f, 0, 1f));
 			g.fillRect(0, window.getHeight()-30, window.getWidth() * s.getXP() / s.getNeededXP(), 30);
 			
-			String test = "       Enemies left: " + Integer.toString(sprites.size()-1) + " Stage: " + stage;
-			String xpText = "Level " + s.getLevel() + " Experience: " + s.getXP() + " / " + s.getNeededXP() + test;
+			
+			String statsText= ""; 
+			statsText += "HP: " + s.currentHP() + " / " + s.maxHP();
+			statsText += "   Level " + s.getLevel() + "   Experience: " + s.getXP() + " / " + s.getNeededXP();
+			statsText += "   Stage: " + stage + "   Enemies left: " + Integer.toString(sprites.size()-1)  ;
 			g.setFont(XP_FONT);
 			g.setColor(Color.white);
-			g.drawString(xpText, window.getWidth()/2 - g.getFontMetrics().stringWidth(xpText)/2, window.getHeight() - 5);
+			g.drawString(statsText, window.getWidth()/2 - g.getFontMetrics().stringWidth(statsText)/2, window.getHeight() - 5);
 			
 			if (sprites.size()-1 == 0){
 				generateLevel(s.getLevel()+3,++stage);

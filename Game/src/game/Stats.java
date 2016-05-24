@@ -32,7 +32,15 @@ public class Stats {
 	}
 	
 
-
+	public int currentHP(){
+		return health;
+	}
+	
+	public int maxHP(){
+		return maxHealth;
+	}
+	
+	
 	public boolean giveXP(int xp) {
 		this.xp += xp;
 		
